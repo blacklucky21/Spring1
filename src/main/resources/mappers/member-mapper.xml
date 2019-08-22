@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+	<resultMap type="Member" id="memberResultSet">
+		<id property="id" column="ID"/>
+		<result property="pwd" column="PWD"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="gender" column="gender"/>
+		<result property="age" column="age"/>
+		<result property="phone" column="phone"/>
+		<result property="address" column="address"/>
+		<result property="enrollDate" column="enroll_Date"/>
+		<result property="updateDate" column="update_date"/>
+		<result property="mStatus" column="m_Status"/>
+
+	
+	
+	</resultMap>
+	
+	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
+		select *
+		from member
+		where id=#{id} and pwd=#{pwd}
+				and m_status ='Y'
+	</select>
+  
+</mapper>
