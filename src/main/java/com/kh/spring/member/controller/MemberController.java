@@ -383,6 +383,8 @@ public class MemberController {
 			 if(result>0) {
 			 status.setComplete();
 			 return "home";	
+			 //session.invalidate();
+			 //return "redirect:logout.do";
 			 }
 			 else {
 				 
