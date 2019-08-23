@@ -1,10 +1,13 @@
 package com.kh.spring.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -19,7 +22,11 @@ public class MemberController {
 
 		@Autowired
 		private MemberService mService;
-	
+		
+		
+		@Autowired
+		private BCryptPasswordEncoder bcryptPasswordEncoder;
+		
 	/**************** 파라미터 전송 받는 방법 *****************/
 	
 	/* 1. HttpServletRequest를 통해 전송받기 (JSP/Servlet방식)
@@ -207,11 +214,12 @@ public class MemberController {
 		 public String memberLogin(Member m, Model model) {
 
 			 Member loginUser =mService.memberLogin(m); 
-		 if(loginUser !=null) { //로그인 성공 시 세션에 정보를 담아야하기 때문에 세션필요 //매개 변수로 HttpSession 추가!
+		 if(loginUser !=null) { 
 		 
 		 model.addAttribute("loginUser", loginUser);
 		 	return "home";
 		 } else {
+			 model.addAttribute("msg","로그인에 실패하였습니다!!");
 			 throw new MemberException("로그인에 실패하였습니다.");
 		 }
 		 
@@ -229,7 +237,57 @@ public class MemberController {
 		 }
 		 
 		 
+		 //회원가입
+		 //회원가입 페이지이동
+		 
+		 @RequestMapping("enrollView.do")
+		 public String enrollView() {
+			 return"member/memberJoin";
 		 }
+//		 1. 결과 값을 받아보면 한글이 깨짐
+//		 	스프링에서 제공하는 피렅를 이용해서 요청 시 전달 받는 값에 한글이 있을 경우 인코딩 하는 것을 추가
+//		 	
+//		 2. 비밀번호 평문
+//		 	bcrypt: 스프링 시큐리티 모듈에서 제공하는암호화 방식
+		 //회원가입
+		 @RequestMapping("minsert.do")
+		 public String memberInsert(@ModelAttribute Member m, @RequestParam("post") String post,
+				 				@RequestParam("address1") String address1,
+				 				@RequestParam("address2") String address2) {
+			 System.out.println(m);
+		
+			 
+			 String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
+			 m.setPwd(encPwd);
+		
+			 System.out.println(m);
+			 
+			 m.setAddress(post +"/" +address1 + "/" + address2);
+			 
+			 int result = mService.insertMember(m);
+			 
+			 if(result>0) {
+				 return "home";
+			 }else {
+				 throw new MemberException("회원가입에 실패하였습니다.");
+			 }
+				
+			
+		 }
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 }
+
+
 		 
 		
 		
