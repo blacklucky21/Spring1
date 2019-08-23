@@ -1,5 +1,7 @@
 package com.kh.spring.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -210,22 +212,22 @@ public class MemberController {
 		  * 
 		  * */
 		 
-		 @RequestMapping(value="login.do",method=RequestMethod.POST) 
-		 public String memberLogin(Member m, Model model) {
-
-			 Member loginUser =mService.memberLogin(m); 
-		 if(loginUser !=null) { 
-		 
-		 model.addAttribute("loginUser", loginUser);
-		 	return "home";
-		 } else {
-			 model.addAttribute("msg","로그인에 실패하였습니다!!");
-			 throw new MemberException("로그인에 실패하였습니다.");
-		 }
-		 
-		 
-		 
-}
+//		 @RequestMapping(value="login.do",method=RequestMethod.POST) 
+//		 public String memberLogin(Member m, Model model) {
+//
+//			 Member loginUser =mService.memberLogin(m); 
+//		 if(loginUser !=null) { 
+//		 
+//		 model.addAttribute("loginUser", loginUser);
+//		 	return "home";
+//		 } else {
+//			 model.addAttribute("msg","로그인에 실패하였습니다!!");
+//			 throw new MemberException("로그인에 실패하였습니다.");
+//		 }
+//		 
+//		 
+//		 
+//}
 		 
 		 //로그아웃 용 컨트롤러2
 		 @RequestMapping("logout.do")
@@ -276,8 +278,70 @@ public class MemberController {
 		 }
 		 
 		 
+		 //암호화 후 로그인
+
 		 
+		 @RequestMapping(value="login.do",method=RequestMethod.POST) 
+		 public String memberLogin(Member m, Model model) {
+			 
+//			 String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
+//			 m.setPwd(encPwd);
+//			 //match라는 메소들 사용해서 db와 지금 있는 내용을 비교해서 로그인을 도와준다.
+//			 
+//			 	
+//			 Member loginUser =mService.memberLogin(m); 
+//		 if(loginUser !=null) { 
+//		 
+//		 model.addAttribute("loginUser", loginUser);
+//		 	return "home";
+//		 } else {
+//			 model.addAttribute("msg","로그인에 실패하였습니다!!");
+//			 throw new MemberException("로그인에 실패하였습니다.");
+//		 }
+			 
+//		 
+			 
+			 Member loginUser = mService.memberLogin(m);
+			 
+			 if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
+				 
+				 model.addAttribute("loginUser",loginUser);
+			 }else {
+				 throw new MemberException("로그인에 실패하였습니다.");
+			 }
+			 
+			 return "home";
+			 //Boolean 값이 반환이 된다.
 		 
+}
+		
+		 
+		 @RequestMapping("myinfo.do")
+		 public String myinfo() {
+			 return"member/mypage";
+		 }
+		 
+		 @RequestMapping("mupdateView.do")
+		 public String  mupdateView() {
+			 
+			 return"member/memberUpdateForm";
+		 }
+		 
+		 @RequestMapping("mupdate.do")
+		 public String mupdate(@ModelAttribute Member m, @RequestParam("post") String post,
+	 				@RequestParam("address1") String address1,
+	 				@RequestParam("address2") String address2,HttpSession session,Model model) {
+			 
+			
+			 m.setAddress(post +"/" +address1 + "/" + address2);
+			 int result = mService.updateMember(m);
+			 if(result>0) {
+				 model.addAttribute("loginUser", m);
+				 return "home";
+			 }else {
+				 throw new MemberException("회워 정보 수정에 실패하였습니다.");
+			 }
+		 }
 		 
 		 
 		 

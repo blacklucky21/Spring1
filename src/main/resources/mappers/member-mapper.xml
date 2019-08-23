@@ -20,10 +20,17 @@
 	</resultMap>
 	
 	<select id="selectOne" parameterType="Member" resultMap="memberResultSet">
-		select *
+<!-- 		select *
 		from member
 		where id=#{id} and pwd=#{pwd}
-				and m_status ='Y'
+				and m_status ='Y' -->
+				
+					
+		<!--암호화 후  -->
+		select*
+		from member
+		where id=#{id} and m_status='Y'
+		
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
@@ -31,5 +38,14 @@
 		values (#{id},#{pwd},#{name},#{email},#{gender},#{age},#{phone},#{address},sysdate,sysdate,default)
 	
 	</insert>
+	
+	
+	<update id="updateMember" parameterType="Member" >
+	
+		update member 
+		set name=#{name} ,email=#{email},gender=#{gender},age=#{age},address= #{address}, phone=#{phone},update_date=sysdate
+		where id=#{id}
+	</update>
+
   
 </mapper>
