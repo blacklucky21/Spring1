@@ -102,12 +102,24 @@
 						<c:url var="mdelete" value="mdelete.do">
 							<c:param name="id" value="${ loginUser.id }"/>
 						</c:url>
-						<button type="button" onclick="location.href='${ mdelete }'">탈퇴하기</button>
+						
+						<button type="button" class="deleteMember" onclick="deleteMember()">탈퇴하기</button>
 						<button type="button" onclick="location.href='home.do'">시작 페이지로 이동</button>
 					</td>
 				</tr>
 			</table>
 		</form>		
 	</div>
+	
+	<script>
+	
+	function deleteMember(){
+		var bool = confirm("정말로 삭제하시겠습니까?");
+		
+		if(bool){
+		location.href='${ mdelete }';
+		}
+	};
+	</script>
 </body>
 </html>

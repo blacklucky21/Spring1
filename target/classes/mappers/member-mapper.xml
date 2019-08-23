@@ -46,6 +46,21 @@
 		set name=#{name} ,email=#{email},gender=#{gender},age=#{age},address= #{address}, phone=#{phone},update_date=sysdate
 		where id=#{id}
 	</update>
+	
+	<update id="updatePwdMember" parameterType="Member">
+	
+	update member
+	set pwd=#{pwd}
+	where id=#{id}
+	
+	</update>
+	
+	<update id="deleteMember" parameterType="string">
+	
+	update member
+	set m_status = 'N'
+	where id=#{id}
+	</update>
 
   
 </mapper>

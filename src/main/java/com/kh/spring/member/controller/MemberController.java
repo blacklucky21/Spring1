@@ -343,6 +343,53 @@ public class MemberController {
 			 }
 		 }
 		 
+		 @RequestMapping("mpwdUpdateView.do")
+		 public String mpwdUpdateView() {
+			 return"member/memberPwdUpdateForm";
+		 }
+		 
+		 @RequestMapping("mPwdUpdate.do")
+		 public String mPwdUpdate(Model model,
+				 				 @RequestParam("pwd") String pwd,
+				 				 @RequestParam("newPwd1") String newPwd1,
+				 				 @RequestParam("newPwd2") String newPwd2,HttpSession session) {
+			
+	         Member m = (Member)session.getAttribute("loginUser");
+	         
+	         if(bcryptPasswordEncoder.matches(pwd, m.getPwd()) && newPwd1.equals(newPwd2) ) {
+	            m.setPwd(bcryptPasswordEncoder.encode(newPwd1));
+	            int result = mService.updatePwdMember(m);
+	            if(result > 0) {
+	               return "member/mypage";
+	            }else {
+	               throw new MemberException("비밀번호 수정 중 오류 발생.");
+	            }
+	         }else {
+	            throw new MemberException("비밀번호가 일치하지 않습니다.");
+	         }
+			 
+		
+		 }
+		 
+		 
+		 //회원 탈퇴
+		 
+		 @RequestMapping("mdelete.do")
+		 public String deleteMember(@RequestParam("id") String id,SessionStatus status) {
+			 
+			 int result  = mService.deleteMember(id);
+			 
+			 
+			 if(result>0) {
+			 status.setComplete();
+			 return "home";	
+			 }
+			 else {
+				 
+				 throw new MemberException("회원 탈퇴중 오류 발생.");
+			 }
+		 }
+		 
 		 
 		 
 		 

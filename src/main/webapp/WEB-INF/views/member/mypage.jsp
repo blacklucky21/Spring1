@@ -83,11 +83,22 @@
 					<c:url var="mdelete" value="mdelete.do">
 						<c:param name="id" value="${ loginUser.id }"/><!-- 넘어갈 값이 있으니 param을 넣게 c:url을 쓰자 -->
 					</c:url>
-					<button type="button" onclick="location.href='${ mdelete }'">회원탈퇴</button>
+					<button type="button" onclick="deleteMember()">회원탈퇴</button>
 					<button type="button" onclick="location.href='home.do'">시작 페이지로 이동</button>
 				</td>
 			</tr>
 		</table>
 	</div>
+	
+	<script>
+	
+	function deleteMember(){
+		var bool = confirm("정말로 삭제하시겠습니까?");
+		
+		if(bool){
+		location.href='${ mdelete }';
+		}
+	};
+	</script>
 </body>
 </html>
