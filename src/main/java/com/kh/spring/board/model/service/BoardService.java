@@ -22,6 +22,8 @@ public interface BoardService {
 	
 	int deleteBoard(int bId);
 
+	ArrayList<Board> selectTopList();
+
 
 	
 	

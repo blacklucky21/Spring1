@@ -14,7 +14,7 @@ public interface MemberService {
 
 	int deleteMember(String id);
 
-	
+	int checkIdDup(String id);
 
 
 }

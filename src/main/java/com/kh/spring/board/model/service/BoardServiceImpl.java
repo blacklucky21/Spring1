@@ -59,6 +59,12 @@ public class BoardServiceImpl implements BoardService{
 		return 0;
 	}
 
+	@Override
+	public ArrayList<Board> selectTopList() {
+		// TODO Auto-generated method stub
+		return bDAO.selectTopList();
+	}
+
 
 
 }

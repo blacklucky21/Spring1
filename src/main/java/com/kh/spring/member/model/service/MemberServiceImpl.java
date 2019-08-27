@@ -47,6 +47,14 @@ public class MemberServiceImpl implements MemberService{
 	
 		return mDAO.deleteMember(id);
 	}
+
+	@Override
+	public int checkIdDup(String id) {
+		// TODO Auto-generated method stub
+		return mDAO.checkIdDup(id);
+	}
+
+
 	
 
 	

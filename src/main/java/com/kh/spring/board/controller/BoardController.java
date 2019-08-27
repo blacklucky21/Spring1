@@ -2,11 +2,15 @@ package com.kh.spring.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -219,6 +223,41 @@ public class BoardController {
 	@RequestMapping("bdelete.do")
 	public String boardDelete(@ModelAttribute Board b) {
 		
+		return null;
+	}
+	
+	@RequestMapping("topList.do")
+	public void boardTopList(HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset =utf-8");
+		
+		ArrayList<Board> list = bService.selectTopList();
+		
+		JSONArray jArr = new JSONArray();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for(Board b: list) {
+			
+			JSONObject jobj = new JSONObject();
+			jobj.put("bId", b.getbId());
+			jobj.put("bTitle",b.getbTitle());
+			jobj.put("bwriter",b.getbWriter());
+			jobj.put("originalFileName",b.getOriginalFileName());
+			jobj.put("bCount",b.getbCount());
+			jobj.put("bCreateDate",sdf.format(b.getbCreateDate()));
+			
+			jArr.add(jobj);
+			
+			
+		}
+		
+		JSONObject sendJson = new JSONObject();;
+		sendJson.put("list",jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
 	}
 
 }

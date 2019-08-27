@@ -1,5 +1,9 @@
 package com.kh.spring.member.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.exception.MemberException;
 import com.kh.spring.member.model.service.MemberService;
@@ -392,6 +397,33 @@ public class MemberController {
 			 }
 		 }
 		 
+		 
+		 /************** 아이디 중복 확인 
+		 * @throws IOException *************/
+		 
+//		 @RequestMapping("dupid.do")
+//		 public void idDuplicateCheck(HttpServletResponse response,String id) throws IOException {
+//			 
+//			 Boolean isUsable = mService.checkIdDup(id) ==0 ? true : false;//0이면 true
+//			 
+//			 
+//			 response.getWriter().print(isUsable);
+//		
+//		 }
+//		 
+		 
+		   @RequestMapping("dupid.do")
+		   public ModelAndView idDuplicateCheck(ModelAndView mv, String id) throws IOException {
+		      Map<String, Boolean> map = new HashMap<String, Boolean>();
+		      
+		      boolean isUsable = mService.checkIdDup(id) == 0 ? true : false;
+		      
+		      map.put("isUsable", isUsable);
+		      mv.addAllObjects(map);
+		      mv.setViewName("jsonView");
+		      
+		      return mv;
+		   }
 		 
 		 
 		 

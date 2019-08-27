@@ -58,5 +58,17 @@
 	
 	
 	</update>
+	
+	
+	<select id="selectTopList" resultMap="boardResultSet">
+		<![CDATA[select *
+		from (select *
+				from board where b_status ='Y' 
+				order by bcount desc)
+		where rownum <= 5
+		
+		]]>		<!--부등호를 tag로 인식하기때문에 CDATA넣어줬음 -->
+	
+	</select>
   
 </mapper>

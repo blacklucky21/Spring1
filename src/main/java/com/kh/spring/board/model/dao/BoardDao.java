@@ -22,7 +22,7 @@ public class BoardDao {
 
 	public ArrayList<Board> selectList(PageInfo pi) {
 		
-		int offset = (pi.getCurrentPage()-1 *pi.getBoardLimit()); // 해당페이지에서 뛰어넘을 게시글수 측정
+		int offset = (pi.getCurrentPage()-1 * pi.getBoardLimit()); // 해당페이지에서 뛰어넘을 게시글수 측정
 		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.getSelectList",null,rowBounds);
@@ -46,6 +46,11 @@ public class BoardDao {
 	public int updateBoard(Board b) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("boardMapper.updateBoard",b);
+	}
+
+	public ArrayList<Board> selectTopList() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTopList");
 	}
 	
 
