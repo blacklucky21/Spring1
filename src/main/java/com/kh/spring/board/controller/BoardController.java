@@ -2,15 +2,13 @@ package com.kh.spring.board.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.board.exception.BoardException;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
@@ -226,38 +226,77 @@ public class BoardController {
 		return null;
 	}
 	
+//	@RequestMapping("topList.do")
+//	public void boardTopList(HttpServletResponse response) throws IOException {
+//		response.setContentType("application/json; charset =utf-8");
+//		
+//		ArrayList<Board> list = bService.selectTopList();
+//		
+//		JSONArray jArr = new JSONArray();
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		
+//		for(Board b: list) {
+//			
+//			JSONObject jobj = new JSONObject();
+//			jobj.put("bId", b.getbId());
+//			jobj.put("bTitle",b.getbTitle());
+//			jobj.put("bwriter",b.getbWriter());
+//			jobj.put("originalFileName",b.getOriginalFileName());
+//			jobj.put("bCount",b.getbCount());
+//			jobj.put("bCreateDate",sdf.format(b.getbCreateDate()));
+//			
+//			jArr.add(jobj);
+//			
+//			
+//		}
+//		
+//		JSONObject sendJson = new JSONObject();;
+//		sendJson.put("list",jArr);
+//		
+//		PrintWriter out = response.getWriter();
+//		out.print(sendJson);
+//		out.flush();
+//		out.close();
+//	}
+	
+	
+//	@RequestMapping("topList.do")
+//	public String boardTopList() throws UnsupportedEncodingException, JsonProcessingException{
+//		
+//		ArrayList<Board> list = bService.selectTopList();
+//		
+//		 for(Board b :list) {
+//			 b.setbTitle(URLEncoder.encode(b.getbTitle(),"utf-8"));
+//		 }
+//		 
+//		 //mapper를 이용해서 list를 String으로 바꿔서 이용
+//		 ObjectMapper mapper = new ObjectMapper();
+//		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		 mapper.setDateFormat(sdf);
+//		 
+//		 String jsonStr = mapper.writeValueAsString(list);
+//		 
+//		 return jsonStr;
+//
+//		}
+	
+	
+	
 	@RequestMapping("topList.do")
-	public void boardTopList(HttpServletResponse response) throws IOException {
-		response.setContentType("application/json; charset =utf-8");
+	public void boardTopList(HttpServletResponse response) throws IOException{
 		
 		ArrayList<Board> list = bService.selectTopList();
 		
-		JSONArray jArr = new JSONArray();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		for(Board b: list) {
-			
-			JSONObject jobj = new JSONObject();
-			jobj.put("bId", b.getbId());
-			jobj.put("bTitle",b.getbTitle());
-			jobj.put("bwriter",b.getbWriter());
-			jobj.put("originalFileName",b.getOriginalFileName());
-			jobj.put("bCount",b.getbCount());
-			jobj.put("bCreateDate",sdf.format(b.getbCreateDate()));
-			
-			jArr.add(jobj);
-			
-			
-		}
-		
-		JSONObject sendJson = new JSONObject();;
-		sendJson.put("list",jArr);
-		
-		PrintWriter out = response.getWriter();
-		out.print(sendJson);
-		out.flush();
-		out.close();
-	}
+		 for(Board b :list) {
+			 b.setbTitle(URLEncoder.encode(b.getbTitle(), "utf-8"));
+		 }
+		 
+		 Gson gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		 gson.toJson(list,response.getWriter());
+		 
 
+
+		}
+	
 }

@@ -32,12 +32,14 @@
 		function topList(){
 			
 			$.ajax({
+			
 				url: "topList.do",
+				dataType: "json",
 				success: function(data){
 					$tableBody = $('#tb tbody');
 					$tableBody.html("");
 					
-					for(var i in data.list){
+			/* 		for(var i in data.list){
 						var $tr = $("<tr>");
 						var $bId = $("<td>").text(data.list[i].bId);
 						var $bTitle = $("<td>").text(data.list[i].bTitle);
@@ -47,6 +49,31 @@
 						var $bFile = $("<td>").text("");
 						
 						if(data.list[i].originalFileName != null){
+							$bFile = $("<td>").text("★").css("text-align","center").css("color","blue");
+						}
+						
+						$tr.append($bId);
+						$tr.append($bTitle);
+						$tr.append($bWriter);
+						$tr.append($bCreateDate);
+						$tr.append($bCount);
+						$tr.append($bFile);
+						
+						$tableBody.append($tr);
+						
+						
+					} */
+					
+					for(var i in data){
+						var $tr = $("<tr>");
+						var $bId = $("<td>").text(data[i].bId);
+						var $bTitle = $("<td>").text(decodeURIComponent(data[i].bTitle.replace(/\+/g, " ")));
+						var $bWriter = $("<td>").text(data[i].bWriter);
+						var $bCreateDate = $("<td>").text(data[i].bCreateDate);
+						var $bCount = $("<td>").text(data[i].bCount);
+						var $bFile = $("<td>").text("");
+						
+						if(data[i].originalFileName != null){
 							$bFile = $("<td>").text("★").css("text-align","center").css("color","blue");
 						}
 						
