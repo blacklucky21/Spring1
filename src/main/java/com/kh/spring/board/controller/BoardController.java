@@ -299,4 +299,12 @@ public class BoardController {
 
 		}
 	
+	
+	/* 댓글 가져오기 */
+	
+		@RequestMapping("rList.do")
+			public void getReplyList(HttpServletResponse response,int bId) {
+				ArrayList<Reply> rlist = bService.getReplyList(bId);
+			}
+		
 }

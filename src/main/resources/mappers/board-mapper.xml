@@ -70,5 +70,24 @@
 		]]>		<!--부등호를 tag로 인식하기때문에 CDATA넣어줬음 -->
 	
 	</select>
+	
+	<select id="selectReplyList" parameterType="_int" resultMap="replyReulstSet">
+		select*
+		from reply r
+			join board b on(r.ref_bid = b.bid)
+			where ref_bid = #{bId}
+			order by rid desc	
+	
+	</select>
   
+  
+  <resultMap id="replyReulstSet" type="Reply">
+  	<id property="rId" column="RID"/>
+  	<result property = "rContent" column="rcontent"/>
+  	<result property ="refBid" column ="ref_bid"/>
+  	<result property ="rWriter" column ="rwriter"/>
+  	<result property ="rCreateDate" column ="r_create_date"/>
+  	<result property ="rModifyDate" column ="r_modify_date"
+  	<result property ="rStatus" ccolumn ="r_status"/>
+  </resultMap>
 </mapper>

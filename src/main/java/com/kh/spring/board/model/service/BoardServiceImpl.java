@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.spring.board.controller.Reply;
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
@@ -63,6 +64,12 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectTopList() {
 		// TODO Auto-generated method stub
 		return bDAO.selectTopList();
+	}
+
+	@Override
+	public ArrayList<Reply> getReplyList(int bId) {
+		// TODO Auto-generated method stub
+		return bDAO.getReplyList(bId);
 	}
 
 

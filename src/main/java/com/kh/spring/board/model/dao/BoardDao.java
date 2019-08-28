@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.board.controller.Reply;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
 
@@ -51,6 +52,11 @@ public class BoardDao {
 	public ArrayList<Board> selectTopList() {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTopList");
+	}
+
+	public ArrayList<Reply> getReplyList(int bId) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",bId);
 	}
 	
 

@@ -2,6 +2,7 @@ package com.kh.spring.board.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.spring.board.controller.Reply;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
 
@@ -23,6 +24,8 @@ public interface BoardService {
 	int deleteBoard(int bId);
 
 	ArrayList<Board> selectTopList();
+
+	ArrayList<Reply> getReplyList(int bId);
 
 
 	

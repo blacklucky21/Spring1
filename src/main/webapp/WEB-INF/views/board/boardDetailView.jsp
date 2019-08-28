@@ -83,5 +83,67 @@
 		<button onclick="location.href='${ blist }'">목록 보기로 이동</button>
 	</p>
 	
+	<br><br>
+
+
+
+	 <!-- 댓글 등록 부분 -->
+	 
+	 <table class="replyTable">
+	 	<tr>
+	 		<td><textarea rows="55" cols="3" id ="rContent"></textarea></td>
+	 		<td><button id="rSubmit">댓글 등록</button></td>
+	 	</tr>
+	 
+	 </table>
+	 
+	 <!-- 댓글 목록 보기 -->
+	 <table class="replyTable" id="rtb">
+	 	<thead>
+	 	
+	 	<tr><td colspan="2"><b id="rCount"></b></td></tr>
+	 	</thead>
+	 	
+	 	<tbody></tbody>
+	 </table>
+	 
+	 <script>
+	 	$(function(){
+	 		getReplyList();
+	 		setInterval(function(){
+	 			getReplyList();
+	 		},10000);
+	 		
+	 	});
+	 	
+	 	$('#rSubmit').on("click",function(){
+	 		
+	 		var rContent = $('#rContent').val();
+	 		var refBid = ${board.bId};
+	 		
+	 		$.ajax({
+	 			
+	 			url:"addReply.do",
+	 			data {rContent:rContent,refBid:refBid},
+	 			type="post",
+	 			success: function(data){
+	 				
+	 			}
+	 		});
+	 		
+	 	});
+	 		//댓글 리스트 ajax
+	 		
+	 		function getReplyList(){
+	 			var bId = ${board.bId};
+	 			
+	 			$.ajax({
+	 				url: "rList.do",
+	 				data: {bId:bId}
+	 			});
+	 		}
+	 
+	 </script>
+	
 </body>
 </html>
