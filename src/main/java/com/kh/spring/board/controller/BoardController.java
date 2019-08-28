@@ -25,6 +25,7 @@ import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
 import com.kh.spring.common.Pagination;
 
+
 @Controller
 public class BoardController {
 	
@@ -304,7 +305,14 @@ public class BoardController {
 	
 		@RequestMapping("rList.do")
 			public void getReplyList(HttpServletResponse response,int bId) {
-				ArrayList<Reply> rlist = bService.getReplyList(bId);
+				ArrayList<Reply> rList = bService.getReplyList(bId);
+				
+				for(Reply r: rList) {
+					r.setCcontent(URLEncoder.encode(r.getrContent(),"utf-8");
+				}
+				
+				Gson gson = new Gsonbuilder().setDateFormat("yyyy-MM-dd").create();
+				gson.toJson(rList,response.getWriter());
 			}
 		
 }

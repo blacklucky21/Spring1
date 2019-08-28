@@ -87,7 +87,7 @@
   	<result property ="refBid" column ="ref_bid"/>
   	<result property ="rWriter" column ="rwriter"/>
   	<result property ="rCreateDate" column ="r_create_date"/>
-  	<result property ="rModifyDate" column ="r_modify_date"
-  	<result property ="rStatus" ccolumn ="r_status"/>
+  	<result property ="rModifyDate" column ="r_modify_date"/>
+  	<result property ="rStatus" column ="r_status"/>
   </resultMap>
 </mapper>

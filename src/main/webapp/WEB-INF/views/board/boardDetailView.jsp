@@ -139,7 +139,24 @@
 	 			
 	 			$.ajax({
 	 				url: "rList.do",
-	 				data: {bId:bId}
+	 				data: {bId:bId},
+	 				success:function(data){
+	 					$tableBody = $("#rtb tbody");
+	 					
+	 					var $tr;
+	 					var $rWriter;
+	 					var $rContent;
+	 					var $rCreateDate ;
+	 					
+	 					$('#rContent').text("댓글 ("+data.length+")");
+	 					
+	 					if(data.length>0){
+	 						for(var i in data){
+	 							$tr = $("<tr>");
+	 							$rWriter = $("<td width")
+	 						}
+	 					}
+	 				}
 	 			});
 	 		}
 	 
