@@ -7,9 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.spring.board.controller.Reply;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 
 @Repository("bDAO")
 public class BoardDao {
@@ -23,7 +23,7 @@ public class BoardDao {
 
 	public ArrayList<Board> selectList(PageInfo pi) {
 		
-		int offset = (pi.getCurrentPage()-1 * pi.getBoardLimit()); // 해당페이지에서 뛰어넘을 게시글수 측정
+		int offset = ((pi.getCurrentPage()-1 ) * pi.getBoardLimit()); // 해당페이지에서 뛰어넘을 게시글수 측정
 		RowBounds rowBounds = new RowBounds(offset,pi.getBoardLimit());
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.getSelectList",null,rowBounds);
@@ -57,6 +57,11 @@ public class BoardDao {
 	public ArrayList<Reply> getReplyList(int bId) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",bId);
+	}
+
+	public int inesrtReply(Reply r) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("boardMapper.insertReply",r);
 	}
 	
 

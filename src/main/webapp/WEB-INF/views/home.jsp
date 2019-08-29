@@ -10,7 +10,19 @@
 	</style>
 </head>
 <body>
+		
 		<c:import url="common/menubar.jsp"/>
+		
+		<script>
+			$(function(){
+				var msg = "<%= request.getAttribute("msg")%>";
+				
+				if(msg !="null"){
+					alert(msg);
+				}
+			});
+		
+		</script>
 		
 		<h1 align="center">게시글 top 5 목록</h1>
 		<table id="tb" border="1"> 

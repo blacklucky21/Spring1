@@ -2,9 +2,9 @@ package com.kh.spring.board.model.service;
 
 import java.util.ArrayList;
 
-import com.kh.spring.board.controller.Reply;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 
 public interface BoardService {
 	
@@ -26,6 +26,8 @@ public interface BoardService {
 	ArrayList<Board> selectTopList();
 
 	ArrayList<Reply> getReplyList(int bId);
+
+	int insertReply(Reply r);
 
 
 	

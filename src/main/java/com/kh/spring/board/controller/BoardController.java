@@ -23,7 +23,9 @@ import com.kh.spring.board.exception.BoardException;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.Pagination;
+import com.kh.spring.member.model.vo.Member;
 
 
 @Controller
@@ -303,16 +305,36 @@ public class BoardController {
 	
 	/* 댓글 가져오기 */
 	
-		@RequestMapping("rList.do")
-			public void getReplyList(HttpServletResponse response,int bId) {
+			@RequestMapping("rList.do")
+			public void getReplyList(HttpServletResponse response,int bId) throws Exception {
 				ArrayList<Reply> rList = bService.getReplyList(bId);
-				
+		
 				for(Reply r: rList) {
-					r.setCcontent(URLEncoder.encode(r.getrContent(),"utf-8");
+					r.setrContent(URLEncoder.encode(r.getrContent(),"utf-8"));
 				}
 				
-				Gson gson = new Gsonbuilder().setDateFormat("yyyy-MM-dd").create();
+		
+				
+				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 				gson.toJson(rList,response.getWriter());
 			}
-		
+			
+			
+			@RequestMapping("addReply.do")
+			public void insertReply(HttpServletResponse response,@ModelAttribute Reply r) throws BoardException {
+				System.out.println("ㅇㅇㅇ"+r.getRefBid());
+				int result = bService.insertReply(r);
+			
+				
+			
+				
+				if(result>0) {
+					System.out.println("성공");
+
+				}else {
+					throw new BoardException("댓글등록 오륜.");
+				}
+			}
+			
 }
+

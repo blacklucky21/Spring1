@@ -227,7 +227,12 @@
 			<version>2.8.5</version>
 		</dependency>
 		
-		
+		<!-- sql문 관련 로킹 라이브러리 -->
+		<dependency>
+			<groupId>org.lazyluke</groupId>
+			<artifactId>log4jdbc-remix</artifactId>
+			<version>0.2.7</version>
+		</dependency>
 		</dependencies>
 		
 		

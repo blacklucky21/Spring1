@@ -10,6 +10,7 @@
 <style type="text/css">
 	#boardDetailTable{width: 800px; margin: auto; border-collapse: collapse; border-left: hidden; border-right: hidden;}
 	#boardDetailTable tr td{padding: 5px;}
+	.replyTable {margin:auto;width:500px;}
 </style>
 </head>
 <body>
@@ -91,8 +92,11 @@
 	 
 	 <table class="replyTable">
 	 	<tr>
-	 		<td><textarea rows="55" cols="3" id ="rContent"></textarea></td>
-	 		<td><button id="rSubmit">댓글 등록</button></td>
+	 		<td><textarea rows="3" cols="55" id ="rContent"></textarea></td>
+	 		<td><button id="rSubmit">댓글 등록</button>
+	 				<%-- <input type="hidden" id="rWriter" value="${loginUser.name}"> --%>
+	 	</td>
+	 	
 	 	</tr>
 	 
 	 </table>
@@ -112,7 +116,7 @@
 	 		getReplyList();
 	 		setInterval(function(){
 	 			getReplyList();
-	 		},10000);
+	 		},1000000000);
 	 		
 	 	});
 	 	
@@ -120,45 +124,67 @@
 	 		
 	 		var rContent = $('#rContent').val();
 	 		var refBid = ${board.bId};
+	 		var loginUser ='${loginUser.name}';
 	 		
+	 		//alert(loginUser);
+	 		if(!rContent == ""){
 	 		$.ajax({
-	 			
-	 			url:"addReply.do",
-	 			data {rContent:rContent,refBid:refBid},
-	 			type="post",
+	 			url: "addReply.do",
+	 			data: {rContent:rContent,refBid:refBid,rWriter:loginUser},
+	 			type: "post",
 	 			success: function(data){
-	 				
+	 				getReplyList();
+	 				$('#rContent').val("");
 	 			}
 	 		});
+	 		}else{
+	 			alert("비어있음");
+	 		}
 	 		
 	 	});
-	 		//댓글 리스트 ajax
-	 		
-	 		function getReplyList(){
-	 			var bId = ${board.bId};
-	 			
-	 			$.ajax({
-	 				url: "rList.do",
-	 				data: {bId:bId},
-	 				success:function(data){
-	 					$tableBody = $("#rtb tbody");
-	 					
-	 					var $tr;
-	 					var $rWriter;
-	 					var $rContent;
-	 					var $rCreateDate ;
-	 					
-	 					$('#rContent').text("댓글 ("+data.length+")");
-	 					
-	 					if(data.length>0){
-	 						for(var i in data){
-	 							$tr = $("<tr>");
-	 							$rWriter = $("<td width")
-	 						}
-	 					}
-	 				}
-	 			});
-	 		}
+	 // 댓글 리스트 ajax
+	      function getReplyList(){
+	         var bId = ${ board.bId };
+	         
+	         $.ajax({
+	            url: "rList.do",
+	            data: {bId:bId},
+	            dataType: "json",
+	            success: function(data){
+	               $tableBody = $("#rtb tbody");
+	               $tableBody.html("");
+	               
+	               var $tr;
+	               var $rWriter;
+	               var $rContent;
+	               var $rCreateDate;
+	               
+	               $("#rCount").text("댓글 (" + data.length + ")");
+	               
+	               if(data.length > 0){
+	                  for(var i in data){
+	                     $tr = $("<tr>");
+	                     $rWriter = $("<td width='100'>").text(data[i].rWriter);
+	                     $rContent = $("<td>").text(decodeURIComponent(data[i].rContent.replace(/\+/g, " ")));
+	                     $rCreateDate = $("<td width='100'>").text(data[i].rCreateDate);
+	                     
+	                     $tr.append($rWriter);
+	                     $tr.append($rContent);
+	                     $tr.append($rCreateDate);
+	                     $tableBody.append($tr);
+	                     
+	                  }
+	               }else {
+	                     $tr = $("<tr>");
+	                     $rContent = $("<td colspan='3'>").text("등록된 댓글이 없습니다.");
+	                     
+	                     $tr.append($rContent);
+	                     $tableBody.append($tr);
+	                  }
+	               }
+	         });
+	      }
+	 	
 	 
 	 </script>
 	

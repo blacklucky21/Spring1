@@ -79,6 +79,13 @@
 			order by rid desc	
 	
 	</select>
+	
+	
+	<insert id="insertReply" parameterType="Reply">
+	
+	insert into reply values(seq_rid.nextval,#{rContent},#{refBid},#{rWriter},sysdate,sysdate,default)
+	
+	</insert>
   
   
   <resultMap id="replyReulstSet" type="Reply">
