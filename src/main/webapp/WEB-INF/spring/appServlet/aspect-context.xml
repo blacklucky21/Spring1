@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+
+
+<!-- LoggerAspect 빈 등록	 -->
+<bean id="loggerAspect" class="com.kh.spring.common.aop.LoggerAspect"/>	
+
+
+		<!--  선언적 AOP 활용 시작 -->
+	<!-- 	<aop:config>
+		
+			<aop:aspect id="loggerAspect" ref="loggerAspect">
+						<aop:pointcut expression="execution( * com.kh.spring.memo..*(..))" id="pcForAll"/>
+			
+						<aop:around method = "loggerAdvice" pointcut-ref ="pcForAll"/>
+			</aop:aspect>
+		
+		
+		</aop:config>
+		 -->
+		
+		<!--  선언적 AOP 활용 끝-->
+		
+		
+		<!--프로그래밍적 AOP활용 시작   -->
+		
+		<aop:aspectj-autoproxy/>
+		<!--프로그래밍적 AOP활용 시작   -->
+</beans>
