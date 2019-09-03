@@ -278,7 +278,7 @@ public class MemberController {
 			 System.out.println(m);
 			 
 			 m.setAddress(post +"/" +address1 + "/" + address2);
-			 
+			 //111
 			 int result = mService.insertMember(m);
 			 
 			 if(result>0) {
@@ -311,7 +311,7 @@ public class MemberController {
 //			 model.addAttribute("msg","로그인에 실패하였습니다!!");
 //			 throw new MemberException("로그인에 실패하였습니다.");
 //		 }
-			 
+			 	 
 //		 
 			 
 			 Member loginUser = mService.memberLogin(m);
